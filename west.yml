@@ -13,4 +13,4 @@ manifest:
           - cmsis-dsp
           - cmsis-nn
           - cmsis_6
-          - hal_espressif
+          - hal_nxp

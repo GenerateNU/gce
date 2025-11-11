@@ -1,0 +1,29 @@
+/*
+ * Device Tree Overlay for FRDM-MCXN947
+ * CAN FD Bus Configuration
+ */
+
+/ {
+    chosen {
+        zephyr,canbus = &flexcan0;
+    };
+};
+
+&flexcan0 {
+    compatible = "nxp,flexcan-fd", "nxp,flexcan";
+    status = "okay";
+    clk-source = <0>;  /* 0 = OSC clock, 1 = peripheral clock, 2 = other - check reference manual */
+    
+    /* CAN Classic mode settings (500 kbps) */
+    bitrate = <500000>;
+    sample-point = <875>;  /* 87.5% sample point */
+    
+    /* CAN FD data phase settings (optional, for when you enable CAN FD) */
+    bitrate-data = <2000000>;  /* 2 Mbps data phase */
+    sample-point-data = <875>;
+    
+    /* CAN transceiver child node */
+    can-transceiver {
+        max-bitrate = <5000000>;  /* Max bitrate your transceiver supports */
+    };
+};

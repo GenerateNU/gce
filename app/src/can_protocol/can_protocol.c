@@ -14,7 +14,9 @@ static const struct device *can_dev;
 K_MSGQ_DEFINE(can_rx_msgq, sizeof(can_packet_t), MSG_QUEUE_SIZE, 4);
 
 // Local node ID (set during initialization)
-static can_node_id_t local_node_id = NODE_MAIN;
+//static can_node_id_t local_node_id = NODE_MAIN;
+static can_node_id_t local_node_id = NODE_INPUT;
+
 
 /**
  * CAN receive callback - called from ISR context

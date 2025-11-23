@@ -7,4 +7,10 @@ project(app)
 
 target_sources(app PRIVATE 
     src/main.c
-    src/can_protocol/can_protocol.c)
+    src/system_states/system_states.c
+    src/can_protocol/can_protocol.c
+    src/board_roles/board_main.c
+    src/board_roles/board_input.c
+    src/board_roles/board_output.c
+    src/ui/ui.c
+    )

@@ -1,11 +1,46 @@
 /*
  * Device Tree Overlay for FRDM-MCXN947
- * CAN FD Bus Configuration
  */
 
 / {
     chosen {
         zephyr,canbus = &flexcan0;
+    };
+
+    aliases {
+        led-red = &red_ui_led;
+        led-yellow = &yellow_ui_led;
+        led-green = &green_ui_led;
+        btn-start-left = &start_button_left;
+        btn-start-right = &start_button_right;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        red_ui_led: led_0 {
+            gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+            label = "Red UI LED";
+        };
+        yellow_ui_led: led_1 {
+            gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+            label = "Yellow UI LED";
+        };
+        green_ui_led: led_2 {
+            gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+            label = "Green UI LED";
+        };
+    };
+
+    buttons {
+        compatible = "gpio-keys";
+        start_button_left: button_0 {
+            gpios = <&gpio1 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "Start Button Left";
+        };
+        start_button_right: button_1 {
+            gpios = <&gpio1 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "Start Button Right";
+        };
     };
 };
 

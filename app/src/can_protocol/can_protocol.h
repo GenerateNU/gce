@@ -2,6 +2,7 @@
 #define CAN_PROTOCOL_H
 
 #include <stdint.h>
+#include <zephyr/kernel.h>
 
 /**
  * Message types for CAN communication
@@ -14,6 +15,7 @@ typedef uint8_t can_msg_type_t;
 #define MSG_HEARTBEAT      0x04
 #define MSG_ERROR          0x05
 #define MSG_SYSTEM_STATUS  0x06
+#define MSG_STATE_CHANGE   0x07
 
 /**
  * Node identifiers for distributed system
@@ -24,6 +26,9 @@ typedef enum {
     NODE_OUTPUT = 0x02,
     NODE_BROADCAST = 0x0F,
 } can_node_id_t;
+
+// Global variable - board role
+extern can_node_id_t node_role;
 
 /**
  * CAN message packet structure
@@ -59,6 +64,12 @@ typedef struct __attribute__((packed)) {
     uint8_t reserved;
 } motor_status_payload_t;
 
+// State change packet payload (goes in can_packet_t.payload)
+typedef struct __attribute__((packed)) {
+    uint8_t new_state;        // system_state_t value
+    uint8_t reserved[5];      // Reserved for future use (total 6 bytes)
+} state_change_payload_t;
+
 /**
  * CAN extended identifier structure (29-bit)
  * Embeds routing information in the identifier
@@ -86,8 +97,6 @@ typedef struct {
 #define PARSE_CAN_SUB_ID(id) ((id) & 0xFFF)
 
 // Function declarations
-#include <zephyr/kernel.h>
-
 int can_protocol_init(can_node_id_t node_id);
 int can_protocol_send(uint8_t priority, can_node_id_t dst_node, const can_packet_t *packet);
 int can_protocol_receive(can_packet_t *packet, k_timeout_t timeout);

@@ -204,13 +204,6 @@ static void check_dual_press(void)
         if (ui_state == IDLE) {
             ui_set_state(RUNNING);
             broadcast_state_change(STATE_COMPRESSION);
-
-            
-            // Trigger system state change
-            // broadcast a "start cycle" CAN message here
-            // if (g_system_state == STATE_IDLE) {
-            //     change_system_state(STATE_HOMING);
-            // }
         }
         
         dual_press_handled = true;

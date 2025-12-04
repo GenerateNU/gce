@@ -13,4 +13,6 @@ target_sources(app PRIVATE
     src/board_roles/board_input.c
     src/board_roles/board_output.c
     src/ui/ui.c
+    src/stepper/stepper.c
+    src/bldc/bldc.c
     )

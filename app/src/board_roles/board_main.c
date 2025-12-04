@@ -1,5 +1,6 @@
 #include "board_logic.h"
 #include "../system_states/system_states.h"
+#include "../stepper/stepper.h"
 #include <zephyr/kernel.h>
 
 void handle_main_board_logic(void)
@@ -18,6 +19,13 @@ void handle_main_board_logic(void)
             break;
             
         case STATE_SEPARATION:
+            // stepper_enable(true);
+            // stepper_start_move(3200, STEPPER_DIR_CW, 500);
+            // while (stepper_is_moving()) {
+            //     k_sleep(K_MSEC(100));
+            // }
+            // printk("Separation complete\n");
+            // stepper_enable(false);
             k_sleep(K_MSEC(3000));
             broadcast_state_change(STATE_COMB_INSERTION);
             break;

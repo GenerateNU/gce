@@ -13,12 +13,20 @@
         led-green = &green_ui_led;
         btn-start-left = &start_button_left;
         btn-start-right = &start_button_right;
+        stepper-step = &stepper_step_pin;
+        stepper-dir = &stepper_dir_pin;
+        stepper-enable = &stepper_enable_pin;
+        led0 = &myled0;
+        motor-pwm-pin = &motor_pwm_gpio;
     };
 
     leds {
         compatible = "gpio-leds";
-        red_ui_led: led_0 {
-            gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+        myled0: led_0 {
+            gpios = <&gpio2 7 GPIO_ACTIVE_LOW>;
+        };
+        red_ui_led: led_3 {
+            gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
             label = "Red UI LED";
         };
         yellow_ui_led: led_1 {
@@ -42,23 +50,57 @@
             label = "Start Button Right";
         };
     };
+
+    stepper_pins {
+        compatible = "gpio-leds";
+        stepper_step_pin: step {
+            gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
+            label = "Stepper STEP";
+        };
+        stepper_dir_pin: dir {
+            gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+            label = "Stepper DIR";
+        };
+        stepper_enable_pin: enable {
+            gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+            label = "Stepper ENABLE";
+        };
+    };
+
+    motor_gpio {
+        compatible = "gpio-leds";
+        motor_pwm_gpio: motor_pwm {
+            gpios = <&gpio2 6 GPIO_ACTIVE_HIGH>;
+            label = "Motor PWM";
+        };
+    };
 };
 
 &flexcan0 {
     compatible = "nxp,flexcan-fd", "nxp,flexcan";
     status = "okay";
-    clk-source = <0>;  /* 0 = OSC clock, 1 = peripheral clock, 2 = other - check reference manual */
+    clk-source = <0>;
     
-    /* CAN Classic mode settings (500 kbps) */
     bitrate = <500000>;
-    sample-point = <875>;  /* 87.5% sample point */
+    sample-point = <875>;
     
-    /* CAN FD data phase settings (optional, for when you enable CAN FD) */
-    bitrate-data = <2000000>;  /* 2 Mbps data phase */
+    bitrate-data = <2000000>;
     sample-point-data = <875>;
     
-    /* CAN transceiver child node */
     can-transceiver {
-        max-bitrate = <5000000>;  /* Max bitrate your transceiver supports */
+        max-bitrate = <5000000>;
     };
+};
+
+/* Enable GPIO controllers */
+&gpio0 {
+    status = "okay";
+};
+
+&gpio1 {
+    status = "okay";
+};
+
+&gpio2 {
+    status = "okay";
 };
